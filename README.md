@@ -127,13 +127,68 @@ CREATE TABLE FATO_VENDAS (
     CONSTRAINT PK_FATO_VENDAS_SalesOrderNumber_SalesOrderLineNumber PRIMARY KEY (SalesOrderNumber, SalesOrderLineNumber) -- Definição da chave primária
 );
 ```
+### 6. `Exemplos de Alterações`
+```sql
+ALTER TABLE DIM_CLIENTE ADD CONSTRAINT FK_DIM_CLIENTE_DIM_GEOGRAFIA 
+FOREIGN KEY (GeographyKey) REFERENCES DIM_GEOGRAFIA (GeographyKey);
+
+ALTER TABLE DIM_PRODUTO ADD CONSTRAINT FK_DIM_PRODUTO_DIM_PRODUTOSubcategory 
+FOREIGN KEY (ProductSubcategoryKey) REFERENCES DIM_PRODUTOSubcategory (ProductSubcategoryKey);
+
+ALTER TABLE FATO_VENDAS ADD CONSTRAINT FK_FATO_VENDAS_DIM_CLIENTE 
+FOREIGN KEY (CustomerKey) REFERENCES DIM_CLIENTE (CustomerKey);
+```
+
+### 7. `Consulta Simples`
+```sql
+SELECT ProductKey, ShipDateKey, CustomerKey, SalesAmount 
+FROM FATO_VENDAS;
+```
+### 8. `Criação de Views`
+
+Média do Preço Unitário por Categoria de Produto
+
+```sql
+CREATE VIEW vw_MediaUnitPricePorProduto AS
+SELECT dpc.ProductCategoryName, AVG(fv.UnitPrice) as AvgUnitPrice
+FROM DIM_PRODUTO_CATEGORIA dpc
+JOIN FATO_VENDAS fv ON dpc.ProductCategoryKey = fv.ProductKey
+GROUP BY dpc.ProductCategoryName;
+```
+
+Clientes que Compraram Mais de 2 Unidades
+```sql
+CREATE VIEW vw_ClientesCompraramMaisDe2Unidades AS
+SELECT c.CustomerKey, c.FirstName, c.LastName, dv.ProductKey, SUM(dv.OrderQuantity) AS TotalOrderQuantity
+FROM DIM_CLIENTE c
+JOIN FATO_VENDAS dv ON c.CustomerKey = dv.CustomerKey
+WHERE dv.OrderQuantity > 2
+GROUP BY c.CustomerKey, c.FirstName, c.LastName, dv.ProductKey;
+```
+
+### 9. `Inserções e Carga de Dados`
+Exemplo de Inserção na Tabela FATO_VENDAS
+```sql
+
+INSERT INTO FATO_VENDAS (
+    ProductKey, OrderDateKey, DueDateKey, ShipDateKey, CustomerKey, CurrencyKey,
+    SalesTerritoryKey, SalesOrderNumber, SalesOrderLineNumber, RevisionNumber, OrderQuantity,
+    UnitPrice, ExtendedAmount, UnitPriceDiscountPct, DiscountAmount, ProductStandardCost,
+    TotalProductCost, SalesAmount, TaxAmt, Freight, CarrierTrackingNumber, CustomerPONumber,
+    OrderDate, DueDate, ShipDate
+) VALUES (
+    123, 456, 789, 321, 654, 987, 246, 'SO123456', 1, 1, 10, 100.00, 1000.00, 0.10, 100.00, 
+    50.00, 75.00, 900.00, 90.00, 25.00, '1234567890', 'PO123456', 
+    '2022-01-15 12:00:00', '2022-01-20 12:00:00', '2022-01-18 12:00:00'
+);
+```
+
 ## SQLFLOW
 ![Logo do GitHub](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*VZ4Dn3YG21-sCYXil8UlCg.png)
-
 ## Diagrama
 ![Logo do GitHub](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*ETvFc6iDiuS7hEyDczdOpA.png)
-
-
+## Linhagem de dados 
+![Logo do GitHub](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*Kq7dTQgdJYSkzLCBXTvv8A.png)
 ## Considerações Finais
 Este código fornece uma base robusta para a criação de um banco de dados relacional orientado a análise de dados. Ele pode ser adaptado para diferentes sistemas de gerenciamento de banco de dados, como SQL Server, MySQL e PostgreSQL, dependendo das necessidades do projeto.
 
