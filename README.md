@@ -127,7 +127,11 @@ CREATE TABLE FATO_VENDAS (
     CONSTRAINT PK_FATO_VENDAS_SalesOrderNumber_SalesOrderLineNumber PRIMARY KEY (SalesOrderNumber, SalesOrderLineNumber) -- Definição da chave primária
 );
 ```
+## SQLFLOW
+![Logo do GitHub](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*VZ4Dn3YG21-sCYXil8UlCg.png)
 
+## Diagrama
+![Logo do GitHub](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*ETvFc6iDiuS7hEyDczdOpA.png)
 
 
 ## Considerações Finais
