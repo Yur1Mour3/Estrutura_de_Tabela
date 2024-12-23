@@ -192,3 +192,4 @@ INSERT INTO FATO_VENDAS (
 ## Considerações Finais
 Este código fornece uma base robusta para a criação de um banco de dados relacional orientado a análise de dados. Ele pode ser adaptado para diferentes sistemas de gerenciamento de banco de dados, como SQL Server, MySQL e PostgreSQL, dependendo das necessidades do projeto.
 
+# [Outros Projetos aqui](https://yurimoura.carrd.co/)
